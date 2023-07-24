@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsignRoleToUserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Routing\Route as RoutingRoute;
@@ -29,9 +30,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-Route::middleware('auth')->group(function()
-{
-    Route::resource('user',UserController::class);
-    Route::resource('role',RoleController::class);
+Route::middleware('auth')->group(function () {
+    Route::resource('user', UserController::class);
+    Route::resource('role', RoleController::class);
+    Route::resource('assign', AsignRoleToUserController::class);
 });
-

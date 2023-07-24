@@ -12,9 +12,9 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <!-- <x-welcome /> -->
                 @hasrole('Super Admin')
-                <x-user-menu />
-                @else
                 <x-Admin-menu />
+                @else
+                <x-user-menu />
                 @endhasrole
             </div>
         </div>

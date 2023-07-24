@@ -14,9 +14,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles =Role::with('permissions')->get();
-        
-        return view('admin.roles.list',compact('roles'));
+        $roles = Role::with('permissions')->get();
+
+        return view('admin.roles.list', compact('roles'));
     }
 
     /**
@@ -24,12 +24,12 @@ class RoleController extends Controller
      */
     public function create()
     {
-     //return $PermissionGroups = PermissionGroup::with('permissions')->get();
-     $PermissionGroups = PermissionGroup::with('permissions')->get();
-    //   dd($PermissionGroups);
-    //   exit();
-     return view('admin.roles.create',compact('PermissionGroups'));
-    // return'Aravind';
+        //return $PermissionGroups = PermissionGroup::with('permissions')->get();
+        $PermissionGroups = PermissionGroup::with('permissions')->get();
+        //   dd($PermissionGroups);
+        //   exit();
+        return view('admin.roles.create', compact('PermissionGroups'));
+        // return'Aravind';
     }
 
     /**
@@ -38,13 +38,13 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //return $request;
-       // dd($request);
+        // dd($request);
         //exit();
         $role = new Role;
-        $role->name =$request->name;
+        $role->name = $request->name;
         $role->save();
         $role->syncPermissions($request->permission_ids);
-        return redirect()->back()->with('Message','Role Was created With Selected Permission Sucessfully');
+        return redirect()->back()->with('Message', 'Role Was created With Selected Permission Sucessfully');
     }
 
     /**
@@ -52,9 +52,9 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-         $role = Role::with('permissions')->find($id);
-         $PermissionGroups = PermissionGroup::with('permissions')->get();
-        return view('admin.roles.edit',compact('role','PermissionGroups'));
+        $role = Role::with('permissions')->find($id);
+        $PermissionGroups = PermissionGroup::with('permissions')->get();
+        return view('admin.roles.edit', compact('role', 'PermissionGroups'));
     }
 
     /**
@@ -70,7 +70,14 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+        //return $request;
+        // dd($request);
+        // exit();
+        $role = Role::find($id);
+        $role->name = $request->name;
+        $role->save();
+        $role->syncPermissions($request->permission_ids);
+        return redirect()->back()->with('Message', 'Role Was Updated With Selected Permission Sucessfully');
     }
 
     /**
@@ -78,6 +85,11 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // return $id;
+        $role = Role::find($id);
+        $role->delete;
+        //it will delete multiple permssion ids in the table of role has permission
+        $role->syncPermissions();
+        return redirect()->back()->with('Message', 'Role Deleted Sucessfully');
     }
 }

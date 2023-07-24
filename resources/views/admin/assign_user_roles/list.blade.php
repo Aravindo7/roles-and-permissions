@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Roles List') }}
+            {{ __('User Roles List') }}
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
                 integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
                 crossorigin="anonymous">
@@ -14,7 +14,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container" mt-5>
                 <a href="{{url()->previous() }}" class="btn btn-primary">Back</a>
-                <a href="{{url('role/create')}}" class="btn btn-info">Create Role</a>
+                <a href="{{url('assign/create')}}" class="btn btn-info">Assign Roles to user</a>
                     <x-message />
                     <table class="table">
                         <thead>
@@ -27,14 +27,20 @@
                         </thead>
                         <tbody>
                             
-                            @foreach($roles as $role)
+                            @foreach($users as $user)
                             <tr>
-                                <td>{{$role->id}}</td>
-                                <td>{{$role->name}}</td>
-                                <td>{{implode(",",$role->permissions->pluck('name')->toArray())}}</td>
+                                <td>{{$user->id}}</td>
+                                <td>{{$user->email}}</td>
                                 <td>
-                                    <a href="{{url('role')}}/{{$role->id}}" class="btn btn-info">Edit</a>
-                                    <form action="{{url('role')}}/{{$role->id}}" method="POST">
+                                    @if (count($user->roles->pluck('name')->toArray())> 0)
+                                    {{implode(",",$user->roles->pluck('name')->toArray())}}
+                                @else
+                                no Roles Assigned
+                                @endif
+                                    </td>
+                                <td>
+                                    <a href="{{url('assign')}}/{{$user->id}}" class="btn btn-info">Edit</a>
+                                    <form action="{{url('assign')}}/{{$user->id}}" method="POST">
                                     @csrf
                                     @method('Delete')
                                     <button class="btn btn-danger">Delete</button>
