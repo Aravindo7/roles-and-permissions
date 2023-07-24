@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -11,8 +13,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        // dd('get the page ');
-        // exit();
+        //it will get request and return view with datas
+        $users = User::get();
+        return view('admin.users.list',compact('users'));
     }
 
     /**
@@ -20,7 +23,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        //it will get request and return view
+        return view('admin.users.create');
     }
 
     /**
@@ -28,7 +32,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //it will  get the post request and stores the data,return view
+        //return $request;
+        $user            =  new User;
+        $user->name      =  $request->name;
+        $user->email     =  $request->email;
+        $user->password  =  Hash::make('password');
+        $user->save();
+
+        return redirect()->back()->with('Message','User Created Sucessfully');
+
     }
 
     /**
