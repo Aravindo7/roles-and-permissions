@@ -1,0 +1,8 @@
+To get the vendor folder run the command:
+composer install
+
+To get the node modules folder run the command:
+npm install
+
+finally run this command:
+npm run dev
