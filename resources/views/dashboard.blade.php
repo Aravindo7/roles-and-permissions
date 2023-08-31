@@ -339,7 +339,7 @@
                 @hasrole('Super Admin')
                 <x-Admin-menus />
                 @else
-                <x-user-menu />
+                <x-user-menus />
                 @endhasrole
 
             </ul>
